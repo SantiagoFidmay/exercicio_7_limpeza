@@ -1,0 +1,28 @@
+const Movimento = require('../models/Movimento')
+
+const cadastrar = async(req,res)=>{
+    const valores = req.body
+
+    if(!valores.tipo || ! valores.quantidade || !valores.data || !valores.idLimpeza){
+        return res.status(400).json({message: "Todos os campos são obrigatórios!"})
+    }
+
+    try {
+      
+        await Movimento.create({
+            tipo: valores.tipo,
+            quantidade: valores.quantidade,
+            data: valores.data,
+            idLimpeza: valores.idLimpeza,
+            
+        })
+
+        return res.status(200).json({message: "Dados cadastrados com sucesso!"})
+
+    } catch (err) {
+        console.error('Erro ao cadastrar o funcionario',err)
+        res.status(500).json({message: 'Erro ao cadastrar o funcionario' })
+    }
+}
+
+module.exports = {cadastrar}
